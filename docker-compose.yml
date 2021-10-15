@@ -1,0 +1,40 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: /src/manage.py runserver 0.0.0.0:9110
+    ports:
+      - '9110:9110'
+    volumes:
+      - .:/src/
+    depends_on:
+      - celery
+    env_file: env.local
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: celery --app harmonize.celery:app worker --beat --loglevel INFO
+    volumes:
+      - .:/src/
+    env_file: env.local
+  manage:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: /src/manage.py
+    command: shell
+    volumes:
+      - .:/src/
+    depends_on:
+      - celery
+    env_file: env.local
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: '/src/'
+    entrypoint: '/usr/local/bin/py.test'
+    restart: 'no'

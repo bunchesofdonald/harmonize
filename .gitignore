@@ -1,0 +1,5 @@
+.vscode/
+celerybeat-schedule
+*.pyc
+__pycache__
+env.local

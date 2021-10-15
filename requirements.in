@@ -1,0 +1,12 @@
+Django
+celery[redis]
+django-redis-cache
+ipython
+pip-tools
+psycopg2
+pytest
+pytest-cov
+pytest-django
+python-dateutil
+requests
+uwsgi
